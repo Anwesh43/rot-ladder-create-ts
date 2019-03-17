@@ -7,6 +7,25 @@ const sizeFactor : number = 3
 const foreColor : string = "#388E3C"
 const backColor : string = "#212121"
 
+const scaleFactor : Function = (scale : number) : number => Math.floor(scale / scDiv)
+
+const maxScale : Function = (scale : number, i : number, n : number)  : number => {
+    return Math.max(0, scale - i / n)
+}
+
+const divideScale : Function = (scale : number, i : number, n : number) : number => {
+    return Math.min(1 / n, maxScale(i, n)) * n
+}
+
+const mirrorScale : Function = (scale : number, a : number, b : number) : number => {
+    const k : number = scaleFactor(scale)
+    return (1 - k) / a + k / b
+}
+
+const updateValue : Function = (scale : number, dir : number, a : number, b : number) : number => {
+    return mirrorScale(scale, a, b) * dir * scGap
+}
+
 class RotLadderCreateStage {
 
     canvas : HTMLCanvasElement = document.createElement('canvas')
