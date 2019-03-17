@@ -3,7 +3,7 @@ const h : number = window.innerHeight
 const scGap : number = 0.05
 const scDiv : number = 0.51
 const strokeFactor : number = 90
-const sizeFactor : number = 3
+const sizeFactor : number = 2
 const foreColor : string = "#388E3C"
 const backColor : string = "#212121"
 const nodes : number = 5
@@ -16,7 +16,7 @@ const maxScale : Function = (scale : number, i : number, n : number)  : number =
 }
 
 const divideScale : Function = (scale : number, i : number, n : number) : number => {
-    return Math.min(1 / n, maxScale(i, n)) * n
+    return Math.min(1 / n, maxScale(scale, i, n)) * n
 }
 
 const mirrorScale : Function = (scale : number, a : number, b : number) : number => {
@@ -37,7 +37,7 @@ const drawRLCNode : Function = (context : CanvasRenderingContext2D, i : number, 
     for (var j = 0; j < lines; j++) {
         context.save()
         context.translate(-size + 2 * size * j, 0)
-        context.rotate(Math.PI / 2 * (1 - 2 * j) * divideScale(sc1, j, lines))
+        context.rotate(-Math.PI / 2 * (1 - 2 * j) * divideScale(sc1, j, lines))
         context.beginPath()
         context.moveTo(0, 0)
         context.lineTo(2 * size * (1 - 2 * j), 0)
@@ -99,6 +99,7 @@ class State {
 
     update(cb : Function) {
         this.scale += updateValue(this.scale, this.dir, lines, 1)
+        console.log(this.scale)
         if (Math.abs(this.scale - this.prevScale) > 1) {
             this.scale = this.prevScale + this.dir
             this.dir = 0
