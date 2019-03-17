@@ -130,3 +130,47 @@ class Animator {
         }
     }
 }
+
+class RLCNode {
+    prev : RLCNode
+    next : RLCNode
+    state : State = new State()
+
+    constructor(private i : number) {
+        this.addNeighbor()
+    }
+
+    addNeighbor() {
+        if (this.i < nodes - 1) {
+            this.next = new RLCNode(this.i + 1)
+            this.next.prev = this
+        }
+    }
+
+    draw(context : CanvasRenderingContext2D) {
+        drawRLCNode(context, this.i, this.state.scale)
+        if (this.prev) {
+            this.prev.draw(context)
+        }
+    }
+
+    update(cb : Function) {
+        this.state.update(cb)
+    }
+
+    startUpdating(cb : Function) {
+        this.state.startUpdating(cb)
+    }
+
+    getNext(dir : number, cb : Function) : RLCNode {
+        var curr : RLCNode = this.prev
+        if (dir == 1) {
+            curr = this.next
+        }
+        if (curr != null) {
+            return curr
+        }
+        cb()
+        return this
+    }
+}
