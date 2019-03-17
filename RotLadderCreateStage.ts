@@ -44,6 +44,12 @@ const drawRLCNode : Function = (context : CanvasRenderingContext2D, i : number, 
         context.stroke()
         context.restore()
     }
+    context.save()
+    context.translate(0, -gap * sc2)
+    context.moveTo(-size, 0)
+    context.lineTo(size, 0)
+    context.stroke()
+    context.restore()
     context.restore()
 }
 
