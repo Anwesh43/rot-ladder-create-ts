@@ -196,3 +196,24 @@ class RotLadderCreate {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+    rlc : RotLadderCreate = new RotLadderCreate()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.rlc.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.rlc.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.rlc.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
